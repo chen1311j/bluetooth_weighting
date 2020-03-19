@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="com.xing.library.view.base.Presenter" />
+
+        <variable
+            name="vm"
+            type="com.xing.bluetoothweighapp.view.viewmodel.MainViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar_layout" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/dimen_45dp"
+                android:paddingEnd="@dimen/dimen_45dp">
+
+                <Button
+                    android:id="@+id/btn_scanning"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100dp"
+                    android:layout_marginTop="@dimen/dimen_30dp"
+                    android:background="@mipmap/bg_red"
+                    android:onClick="@{(v)->presenter.onClick(v)}"
+                    android:text="扫描称重"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_23" />
+
+                <Button
+                    android:id="@+id/reset_scanning"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:background="@mipmap/bg_blue"
+                    android:onClick="@{(v)->presenter.onClick(v)}"
+                    android:text="重新称重"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_23" />
+
+                <Button
+                    android:id="@+id/btn_bluetooth"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:background="@mipmap/bg_blue"
+                    android:onClick="@{(v)->presenter.onClick(v)}"
+                    android:text="连接蓝牙"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_23" />
+
+                <Button
+                    android:id="@+id/today_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:background="@mipmap/bg_yello"
+                    android:onClick="@{(v)->presenter.onClick(v)}"
+                    android:text="今日数据"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_23" />
+
+                <Button
+                    android:id="@+id/btn_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:background="@mipmap/bg_yello"
+                    android:onClick="@{(v)->presenter.onClick(v)}"
+                    android:text="上传数据"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_23" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+</layout>
