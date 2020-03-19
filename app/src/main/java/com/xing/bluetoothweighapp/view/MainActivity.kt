@@ -70,7 +70,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(), TextToSpeech.OnInitLis
     private var mTextToSpeech: TextToSpeech? = null
     private val REQUEST_READ_WRITE = 1212
     private val downloadPath = "${Environment.getExternalStorageDirectory().absolutePath}/Download"
-    private val copyDBPath = "${Environment.getExternalStorageDirectory().absolutePath}/downloads/copy.db"
+    private val copyDBPath = "${downloadPath}/copy.db"
     private val apkFilePath = "$downloadPath/度秘语音引擎3.0-BaiduSpeechService.apk"
 
     private val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -107,18 +107,22 @@ class MainActivity : BaseActivity<MainActivityBinding>(), TextToSpeech.OnInitLis
     }
 
     private fun copyDBFile() {
-        val dataBasePath = "data/" + Environment.getDataDirectory().absolutePath + "/$packageName/databases/${DBMangaer.getDBName()}"
-        val dbFile = File(dataBasePath)
-        if (File(dataBasePath).exists()) {
-            val downloadFile = File(downloadPath)
-            if (!downloadFile.exists()) {
-                downloadFile.mkdir()
+        try {
+            val dataBasePath = "data/" + Environment.getDataDirectory().absolutePath + "/$packageName/databases/${DBMangaer.getDBName()}"
+            val dbFile = File(dataBasePath)
+            if (File(dataBasePath).exists()) {
+                val downloadFile = File(downloadPath)
+                if (!downloadFile.exists()) {
+                    downloadFile.mkdir()
+                }
+                val copyFile = File(copyDBPath)
+                if (!copyFile.exists()) {
+                    copyFile.createNewFile()
+                }
+                nioTransferCopy(dbFile,copyFile)
             }
-            val copyFile = File(copyDBPath)
-            if (!copyFile.exists()) {
-                copyFile.createNewFile()
-            }
-            nioTransferCopy(dbFile,copyFile)
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 
