@@ -3,6 +3,7 @@
  */
 package com.xing.bluetoothweighapp.view.viewmodel
 
+import androidx.databinding.ObservableField
 import com.google.gson.Gson
 import com.xing.bluetoothweighapp.dao.WeightOrderBeanDao
 import com.xing.bluetoothweighapp.db.WeightBeanManager
@@ -30,7 +31,11 @@ class MainViewModel constructor(private val dao: WeightBeanManager, val rope: Ap
     }
 
     val map = HashMap<String, String>()
+    val noneUploadCount = ObservableField<Int>()
 
+
+
+    fun getNoneCount()=dao.query("WHERE ${WeightOrderBeanDao.Properties.Status.columnName}=?", WeightBeanManager.NONE.toString())
 
     fun uploadWeight(): Single<Any> = dao.query(
         "WHERE ${WeightOrderBeanDao.Properties.Status.columnName}=?",

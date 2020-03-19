@@ -1,5 +1,6 @@
 package com.xing.library.db
 
+import io.reactivex.Flowable
 import io.reactivex.Single
 import org.greenrobot.greendao.AbstractDao
 

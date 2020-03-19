@@ -33,7 +33,7 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager) : B
     val orderCode = ObservableField<String>()
     val weight = ObservableField<String>("0.0")
     val customerName = ObservableField<String>()
-    val isAutoSave = MutableLiveData<Boolean>()
+    val isAutoSave = MutableLiveData<Boolean>(true)
     val isEnabled = ObservableField<Boolean>()
     val isSaveSuccess = ObservableField<Int>()
     val scanCount = ObservableField<Int>(0)
@@ -94,7 +94,6 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager) : B
             )
             isSaveSuccess.set(
                 if (entityId != -1L) {
-                    resetData()
                     SAVE_SUCCESS
                 } else
                     SAVE_FAILURE
@@ -134,10 +133,10 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager) : B
 
     }
 
-    private fun resetData() {
+   /* private fun resetData() {
         isSaveSuccess.set(RESET)
-        orderCode.set("")
-        weight.set("0.0")
-        scanCount.set(dao.count().toInt())
-    }
+        //orderCode.set("")
+        //weight.set("0.0")
+        //scanCount.set(dao.count().toInt())
+    }*/
 }

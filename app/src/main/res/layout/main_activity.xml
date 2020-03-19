@@ -66,6 +66,17 @@
                     android:textSize="@dimen/sp_23" />
 
                 <Button
+                    android:id="@+id/btn_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:background="@mipmap/bg_yello"
+                    android:onClick="@{(v)->presenter.onClick(v)}"
+                    android:text='@{"上传数据 "+vm.noneUploadCount}'
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_23" />
+
+                <Button
                     android:id="@+id/today_data"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_100dp"
@@ -76,16 +87,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_23" />
 
-                <Button
-                    android:id="@+id/btn_upload"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_100dp"
-                    android:layout_marginTop="@dimen/dimen_15dp"
-                    android:background="@mipmap/bg_yello"
-                    android:onClick="@{(v)->presenter.onClick(v)}"
-                    android:text="上传数据"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp_23" />
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

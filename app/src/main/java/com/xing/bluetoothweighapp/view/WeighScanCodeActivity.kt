@@ -27,6 +27,7 @@ import com.xing.library.view.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.R.attr.name
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.*
 import android.provider.Settings
@@ -38,6 +39,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.xing.bluetoothweighapp.DialogHintView
 import com.xing.bluetoothweighapp.R
+import com.xing.library.net.NetUtils
 import kotlinx.android.synthetic.main.weigh_scan_code_activity.*
 import java.io.File
 import java.io.FileOutputStream
@@ -55,6 +57,7 @@ import java.util.*
 
 class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
 
+    private var mediaPlayer: MediaPlayer? = null
     private var isResetScanning: Boolean? = null
     private var connectBlueTask: ConnectBlueTask? = null
     private var blueToothController: BlueToothController? = null
@@ -107,27 +110,29 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                 uiHandler.post {
                     mViewModel.orderCode.set(result)
                     connectBlueTask?.sendCommand("R")
+                    if (mediaPlayer?.isPlaying == false && !NetUtils.isNetworkConnected(this)) {
+                        mediaPlayer?.start()
+                    }
                 }
             }
         }
-        mViewModel.getCount().bindLifeCycle(this).subscribe({
-            mViewModel.scanCount.set(it.size)
-        }, {
-
-        })
+        getCount()
         mViewModel.checkData().bindLifeCycle(this).subscribe()
         mViewModel.checkSave().bindLifeCycle(this).subscribe {
             if (it == WeighScanCodeViewModel.SAVE_SUCCESS) {
+                mViewModel.isSaveSuccess.set(WeighScanCodeViewModel.RESET)
                 toast("保存成功")
+                getCount()
             } else if (it == WeighScanCodeViewModel.SAVE_FAILURE) {
                 if (isResetScanning == true) {
                     toast("更新重量无效")
                 } else {
                     toast("保存失败")
                 }
-            }else if (it==WeighScanCodeViewModel.REPEAT_FAILURE){
+            } else if (it == WeighScanCodeViewModel.REPEAT_FAILURE) {
                 toast("重量无效")
             }
+
         }
         val bundle = intent.getParcelableExtra<Bundle>(Constants.KEY_PARCELABLE)
         bundle?.apply {
@@ -140,6 +145,18 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
         }
         blueToothController?.registerBlueToothReceiver(this, receiver)
         pairConnect()
+        mediaPlayer = MediaPlayer.create(this, R.raw.network_none);
+    }
+
+    /**
+     * 获取未上传数量
+     */
+    private fun getCount() {
+        mViewModel.getCount().bindLifeCycle(this).subscribe({
+            mViewModel.scanCount.set(it.size)
+        }, {
+
+        })
     }
 
     /**
@@ -179,6 +196,9 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
         connectBlueTask?.cancel()
         uiHandler.removeCallbacksAndMessages(null)
         unregisterReceiver(receiver)
@@ -250,7 +270,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                 toast("语音功能，需要重启应用重新进入")
             }
         } else {
-            toast("请稍后，重试~")
+            toast("语音功能异常")
         }
     }
 }

@@ -37,6 +37,7 @@ import com.xing.library.helper.extens.logD
 import com.xing.library.helper.extens.navigateToActivity
 import com.xing.library.helper.extens.toast
 import com.xing.library.net.NetStateReceiver
+import com.xing.library.net.NetUtils
 import com.xing.library.view.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.mockito.internal.util.io.IOUtil.close
@@ -104,6 +105,18 @@ class MainActivity : BaseActivity<MainActivityBinding>(), TextToSpeech.OnInitLis
         mediaPlayer = MediaPlayer.create(this, R.raw.netwoker_status)
         copyDBFile()
         SQLiteStudioService.instance().start(this)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getNoneCount()
+    }
+
+    private fun getNoneCount() {
+        mViewModel.getNoneCount().bindLifeCycle(this).subscribe({
+            mViewModel.noneUploadCount.set(it.size)
+        }, {})
     }
 
     private fun copyDBFile() {
@@ -119,9 +132,9 @@ class MainActivity : BaseActivity<MainActivityBinding>(), TextToSpeech.OnInitLis
                 if (!copyFile.exists()) {
                     copyFile.createNewFile()
                 }
-                nioTransferCopy(dbFile,copyFile)
+                nioTransferCopy(dbFile, copyFile)
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -163,6 +176,10 @@ class MainActivity : BaseActivity<MainActivityBinding>(), TextToSpeech.OnInitLis
                 }
             }
             R.id.btn_upload -> {
+                if (!NetUtils.isNetworkConnected(this)) {
+                    toast("请检查网络状态")
+                    return
+                }
                 mViewModel.uploadWeight().doOnDispose {
                     progress.show()
                 }.bindLifeCycle(this)
@@ -173,6 +190,7 @@ class MainActivity : BaseActivity<MainActivityBinding>(), TextToSpeech.OnInitLis
                         } else {
                             dialogHintView.show("上传成功")
                         }
+                        getNoneCount()
                     }, {
                         progress.cancel()
                         dialogHintView.show("上传失败，请重新上传")
