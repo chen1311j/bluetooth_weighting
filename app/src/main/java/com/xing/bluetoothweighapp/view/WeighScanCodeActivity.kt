@@ -44,6 +44,7 @@ import kotlinx.android.synthetic.main.weigh_scan_code_activity.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.NumberFormatException
 import java.lang.Process
 import java.util.*
 
@@ -57,11 +58,13 @@ import java.util.*
 
 class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
 
+    private var customerName: String? = null
     private var mediaPlayer: MediaPlayer? = null
     private var isResetScanning: Boolean? = null
     private var connectBlueTask: ConnectBlueTask? = null
     private var blueToothController: BlueToothController? = null
     private var gunManager: GunManager? = null
+    private var speechText: String? = null
 
 
     private val mViewModel by viewModel<WeighScanCodeViewModel>()
@@ -88,9 +91,13 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                     }
                 }
                 Constants.MSG_GOT_DATA -> {
-                    val formatWeight = String.format("%.2f", msg.obj.toString().toFloat())
-                    mViewModel.weight.set(formatWeight)
-                    submit(formatWeight)
+                    try {
+                        val formatWeight = String.format("%.2f", msg.obj.toString().toFloat())
+                        mViewModel.weight.set(formatWeight)
+                        submit(formatWeight)
+                    } catch (e: NumberFormatException) {
+                        e.printStackTrace()
+                    }
                 }
                 Constants.MSG_CONNECTED_TO_SERVER -> {
                     blueToothController?.cancelScanBlue()
@@ -136,7 +143,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
         }
         val bundle = intent.getParcelableExtra<Bundle>(Constants.KEY_PARCELABLE)
         bundle?.apply {
-            val customerName = bundle.getString(Constants.NAME)
+            customerName = bundle.getString(Constants.NAME)
             isResetScanning = bundle.getBoolean(Constants.IS_RESET_SCANNING, false)
             isResetScanning?.let {
                 mViewModel.isResetScanning = it
@@ -223,6 +230,15 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
             R.id.tv_order_code -> {
                 mViewModel.orderCode.set(System.currentTimeMillis().toString())
             }
+            R.id.tv_previous_order -> {
+                customerName?.let {
+                    mViewModel.previousOrder(it).bindLifeCycle(this).subscribe({
+                        toastSuccess("成功")
+                    }, {
+                        toastSuccess("失败")
+                    })
+                }
+            }
         }
     }
 
@@ -248,11 +264,14 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun submit(text: String) { // validate
-
         if (TextUtils.isEmpty(text)) {
             Toast.makeText(this, "请您输入要朗读的文字", Toast.LENGTH_SHORT).show()
             return
         }
+        if (TextUtils.equals(speechText, text)) {
+            return
+        }
+        speechText = text
         val mTextToSpeech = Application.application.mTextToSpeech
         if (mTextToSpeech != null && !mTextToSpeech.isSpeaking) { /*
                 TextToSpeech的speak方法有两个重载。
@@ -269,8 +288,6 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
             if (speak == -1) {
                 toast("语音功能，需要重启应用重新进入")
             }
-        } else {
-            toast("语音功能异常")
         }
     }
 }

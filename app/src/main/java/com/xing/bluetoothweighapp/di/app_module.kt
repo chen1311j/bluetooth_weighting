@@ -7,6 +7,7 @@ import com.xing.bluetoothweighapp.view.viewmodel.ToDayDataViewModel
 import com.xing.bluetoothweighapp.view.viewmodel.WeighScanCodeViewModel
 import com.xing.library.helper.Constants
 import com.xing.library.helper.network.NetMgr
+import com.xing.library.model.remote.api.ApiMailService
 import com.xing.library.model.remote.api.ApiService
 import com.xing.library.model.repository.ApiRepository
 import org.koin.androidx.viewmodel.ext.koin.viewModel
@@ -17,7 +18,7 @@ val viewModelModule = module {
 
     viewModel { MainViewModel(get(),get()) }
     viewModel { SelectCustomerViewModel(get()) }
-    viewModel { WeighScanCodeViewModel(get()) }
+    viewModel { WeighScanCodeViewModel(get(),get()) }
     viewModel { ToDayDataViewModel(get()) }
 
 }
@@ -25,11 +26,12 @@ val viewModelModule = module {
 val remoteModule = module {
     single<Retrofit> { NetMgr.getRetrofit(Constants.HOST_API) }
     single<ApiService> { get<Retrofit>().create(ApiService::class.java) }
+    single<ApiMailService> { NetMgr[Constants.HOST_API_2, ApiMailService::class.java] }
 }
 
 
 val repoModule = module {
-    single { ApiRepository(get()) }
+    single { ApiRepository(get(),get()) }
     single { ManagerFactory.getInstance().weigthBeanManager }
 }
 

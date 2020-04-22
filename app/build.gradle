@@ -3,6 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao'
 android {
+    signingConfigs {
+        release {
+            storeFile file('./key.jks')
+            storePassword 'bluetoothweigth'
+            keyAlias = 'bluetoothweigth'
+            keyPassword 'bluetoothweigth'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {

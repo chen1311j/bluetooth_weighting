@@ -8,11 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import com.xing.bluetoothweighapp.dao.WeightOrderBeanDao
 import com.xing.bluetoothweighapp.db.WeightBeanManager
 import com.xing.bluetoothweighapp.db.entity.WeightOrderBean
-import com.xing.library.helper.extens.bindLifeCycle
-import com.xing.library.helper.extens.get
-import com.xing.library.helper.extens.logD
-import com.xing.library.helper.extens.toFlowable
+import com.xing.library.helper.extens.*
 import com.xing.library.helper.utils.TimeUtil
+import com.xing.library.model.repository.ApiRepository
 import com.xing.library.viewmodel.BaseViewModel
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -28,7 +26,7 @@ import io.reactivex.functions.Function3
  * @date 2020/02/21
  */
 
-class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager) : BaseViewModel() {
+class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager,val rope: ApiRepository) : BaseViewModel() {
 
     val orderCode = ObservableField<String>()
     val weight = ObservableField<String>("0.0")
@@ -130,8 +128,9 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager) : B
         }, {
 
         })
-
     }
+
+    fun  previousOrder(company:String)=rope.setPreviousOrder(company).async()
 
    /* private fun resetData() {
         isSaveSuccess.set(RESET)

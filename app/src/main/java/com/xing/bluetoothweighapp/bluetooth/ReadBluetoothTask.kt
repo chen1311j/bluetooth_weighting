@@ -3,6 +3,7 @@ package com.xing.bluetoothweighapp.bluetooth
 import android.bluetooth.BluetoothSocket
 import android.os.AsyncTask
 import android.os.Handler
+import android.text.TextUtils
 import android.util.Log
 import com.xing.library.helper.Constants
 import java.io.BufferedInputStream
@@ -34,10 +35,29 @@ class ReadBluetoothTask : Thread {
                         val value = String(buffer, 0, bytes)
                         if (value != isSend) {
                             val msg = obtainMessage()
-                            msg.obj = value.replace("wn", "").replace("kg", "").trim()
-                            msg.what = Constants.MSG_GOT_DATA
-                            uIHandler?.sendMessage(msg)
-                            isSend = value
+                            when {
+                                value.contains("=") -> {//P5-5
+                                    msg.obj = value.substring(value.lastIndexOf("=") + 1).reversed().trim()
+                                }
+                                value.contains("wn+") -> {//P5-3
+                                    msg.obj = value.replace("wn+", "").replace("kg", "").trim()
+                                }
+                                value.contains("wn") -> {//P5-13
+                                    msg.obj = value.replace("wn", "").replace("kg", "").trim()
+                                }
+                                value.contains("\r") -> {//P5-8
+                                    if (!TextUtils.isEmpty(value)) {
+                                        msg.obj = value.substring(value.lastIndexOf("\r")-6).trim()
+                                    }
+                                }
+                                else -> {
+                                }
+                            }
+                            if (!TextUtils.isEmpty(msg.obj as? CharSequence?)) {
+                                msg.what = Constants.MSG_GOT_DATA
+                                uIHandler?.sendMessage(msg)
+                                isSend = value
+                            }
                         }
                     }
                 }

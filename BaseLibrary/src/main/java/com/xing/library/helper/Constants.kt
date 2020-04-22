@@ -16,6 +16,7 @@ object Constants {
     val IS_RESET_SCANNING = "isResetScanning"
     val NAME = "name"
     val HOST_API = "http://poststation.pengpengwaimai.top/"
+    val HOST_API_2 = "http://mail.pengpengwaimai.top/"
 
 
     val MSG_GOT_DATA = 110

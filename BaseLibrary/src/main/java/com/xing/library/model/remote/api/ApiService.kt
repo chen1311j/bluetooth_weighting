@@ -11,6 +11,7 @@ interface ApiService {
     @GET("/company/index")
     fun getCustomerList(): Single<BaseResponse<List<CustomerBean>>>
 
+
     @POST("/company/weight")
     @FormUrlEncoded
     fun requestWeight(@FieldMap map: Map<String, String>): Single<BaseResponse<Any>>

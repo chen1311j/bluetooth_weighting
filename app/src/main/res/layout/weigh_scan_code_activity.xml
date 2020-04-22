@@ -110,6 +110,20 @@
                     android:text="扫描单号自动确认"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_16" />
+
+
+                <TextView
+                    android:id="@+id/tv_previous_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100dp"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:gravity="center"
+                    android:onClick="@{(v)->presenter.onClick(v)}"
+                    android:text="上一单是外围"
+                    android:background="@mipmap/bg_red"
+                    android:layout_marginBottom="@dimen/dimen_50dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_23" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
