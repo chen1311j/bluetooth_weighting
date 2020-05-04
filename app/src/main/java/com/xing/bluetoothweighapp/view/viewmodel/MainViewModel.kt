@@ -44,7 +44,7 @@ class MainViewModel constructor(private val dao: WeightBeanManager, val rope: Ap
         if (list.isEmpty()) {
             return@flatMap Single.just("")
         }
-        map["data"] = GsonUtil.GsonString(list.map { bean -> UploadBean(bean.orderId, bean.weigth, bean.customer, bean.time) })
+        map["data"] = GsonUtil.GsonString(list.map { bean -> UploadBean(bean.orderId, bean.weigth, bean.customer, bean.time, if(bean.type.contains("外围")) "外围" else "地磅") })
         return@flatMap rope.requestWeight(map)
             .async().doOnSuccess { response ->
                 val newList = list.map {
