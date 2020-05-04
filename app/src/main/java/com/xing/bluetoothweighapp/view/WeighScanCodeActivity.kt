@@ -128,15 +128,18 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
         mViewModel.checkSave().bindLifeCycle(this).subscribe {
             if (it == WeighScanCodeViewModel.SAVE_SUCCESS) {
                 mViewModel.isSaveSuccess.set(WeighScanCodeViewModel.RESET)
+                playSound(R.raw.success)
                 toast("保存成功")
                 getCount()
             } else if (it == WeighScanCodeViewModel.SAVE_FAILURE) {
+                playSound(R.raw.failed)
                 if (isResetScanning == true) {
                     toast("更新重量无效")
                 } else {
                     toast("保存失败")
                 }
             } else if (it == WeighScanCodeViewModel.REPEAT_FAILURE) {
+                playSound(R.raw.failed)
                 toast("重量无效")
             }
 
