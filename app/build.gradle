@@ -40,7 +40,7 @@ android {
     }
 }
 greendao {
-    schemaVersion 2  // 版本号 升级数据库可以配置
+    schemaVersion 3  // 版本号 升级数据库可以配置
     daoPackage 'com.xing.bluetoothweighapp.dao'  // 自动生成的代码的存放包名（可忽略）
     targetGenDir 'src/main/java'  // 自动生成代码的存放位置（可忽略）
 }
