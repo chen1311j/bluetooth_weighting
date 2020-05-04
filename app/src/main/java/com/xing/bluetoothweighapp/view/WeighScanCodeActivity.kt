@@ -65,6 +65,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
     private var blueToothController: BlueToothController? = null
     private var gunManager: GunManager? = null
     private var speechText: String? = null
+    private var isDiBang = true//默认是黄色的【此单地磅件】，点了以后变为【此单外围件】
 
 
     private val mViewModel by viewModel<WeighScanCodeViewModel>()
@@ -152,6 +153,9 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                 mViewModel.isResetScanning = it
             }
             mViewModel.customerName.set(customerName)
+            mViewModel.orderType.set(if(isDiBang) "此单地磅单" else "此单外围单")
+//            mViewModel.bgColor.set(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
+            tv_confirm.setBackgroundResource(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
         }
         blueToothController?.registerBlueToothReceiver(this, receiver)
         pairConnect()
@@ -219,13 +223,17 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tv_confirm -> {
-                if (mViewModel.isEnabled.get() == true) {
-                    if (isResetScanning == true) {
-                        mViewModel.resetSaveData()
-                    } else {
-                        mViewModel.saveData()
-                    }
-                }
+//                if (mViewModel.isEnabled.get() == true) {
+//                    if (isResetScanning == true) {
+//                        mViewModel.resetSaveData()
+//                    } else {
+//                        mViewModel.saveData()
+//                    }
+//                }
+                isDiBang = !isDiBang
+                mViewModel.orderType.set(if(isDiBang) "此单地磅单" else "此单外围单")
+//                mViewModel.bgColor.set(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
+                tv_confirm.setBackgroundResource(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
             }
             R.id.tv_weight -> {
                 connectBlueTask?.sendCommand("R")

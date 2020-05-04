@@ -33,6 +33,8 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager,val 
     val customerName = ObservableField<String>()
     val isAutoSave = MutableLiveData<Boolean>(true)
     val isEnabled = ObservableField<Boolean>()
+    val orderType = ObservableField<String>()
+    val bgColor = ObservableField<Int>()
     val isSaveSuccess = ObservableField<Int>()
     val scanCount = ObservableField<Int>(0)
     var isResetScanning = false
@@ -87,7 +89,7 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager,val 
                 WeightOrderBean(
                     null,
                     orderCode.get(), TimeUtil.getFormatTimeAll(System.currentTimeMillis()),
-                    weight.get(), customerName.get(), WeightBeanManager.NONE
+                    weight.get(), customerName.get(), WeightBeanManager.NONE, orderType.get()
                 )
             )
             isSaveSuccess.set(

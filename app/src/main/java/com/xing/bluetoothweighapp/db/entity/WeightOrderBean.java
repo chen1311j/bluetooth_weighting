@@ -17,22 +17,27 @@ public class WeightOrderBean {
     private String weigth;
     private String customer;
     private int status;
-    
-    @Generated(hash = 59104762)
-    public WeightOrderBean() {
-    }
-
-    @Generated(hash = 1756358537)
+    private String type;
+    @Generated(hash = 886857606)
     public WeightOrderBean(Long id, String orderId, String time, String weigth,
-            String customer, int status) {
+            String customer, int status, String type) {
         this.id = id;
         this.orderId = orderId;
         this.time = time;
         this.weigth = weigth;
         this.customer = customer;
         this.status = status;
+        this.type = type;
     }
-    
+    @Generated(hash = 59104762)
+    public WeightOrderBean() {
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getOrderId() {
         return this.orderId;
     }
@@ -63,13 +68,12 @@ public class WeightOrderBean {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    public Long getId() {
-        return this.id;
+    public String getType() {
+        return this.type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
 }
