@@ -2,8 +2,11 @@ package com.xing.library.view.base
 
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.transition.Transition
 import android.view.MenuItem
 import android.view.View
@@ -22,6 +25,7 @@ import com.xing.library.net.NetChangeObserver
 import com.xing.library.net.NetStateReceiver
 import com.xing.library.net.NetType
 import kotlinx.android.synthetic.main.toolbar_layout.*
+import java.util.HashMap
 
 
 /**
@@ -40,6 +44,12 @@ abstract class BaseActivity<VB : ViewDataBinding> : AppCompatActivity(), Present
     protected var delayToTransition = false
     protected var mToolbar: Toolbar? = null
     protected var mTvTitle: TextView? = null
+    //声明一个SoundPool对象
+    protected var soundpool: SoundPool? = null
+    private var previousId: Int = 0
+    private var handler: Handler? = null
+    //使用HashMap管理各种音频
+    protected var soundmap: HashMap<Int, Int>? = null
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -177,5 +187,37 @@ abstract class BaseActivity<VB : ViewDataBinding> : AppCompatActivity(), Present
             }
         } else default
 
+    }
+
+    fun initSound(resourceId: Int) {
+        if (soundpool == null) {
+            soundpool = SoundPool(5, AudioManager.STREAM_RING, 0)
+        }
+        if (soundmap == null) {
+            soundmap = HashMap()
+        }
+        if (soundpool != null && soundmap != null && !soundmap!!.containsKey(resourceId)) {
+            soundmap!![resourceId] = soundpool!!.load(this, resourceId, 1)
+        }
+    }
+
+    fun playSound(resourceId: Int) {
+        if (soundpool == null) {
+            soundpool = SoundPool(5, AudioManager.STREAM_RING, 0)
+        }
+        if (soundmap == null) {
+            soundmap = HashMap()
+        }
+        if (soundpool != null && soundmap != null && !soundmap!!.containsKey(resourceId)) {
+            soundmap!![resourceId] = soundpool!!.load(this, resourceId, 1)
+        }
+        if (soundpool != null && soundmap != null && soundmap!!.get(resourceId) != null) {
+            soundpool!!.play(soundmap!!.get(resourceId)!!, 1f, 1f, 0, 0, 1f)//播放指定的音频
+        }
+        soundpool!!.setOnLoadCompleteListener(SoundPool.OnLoadCompleteListener { soundPool, i, i1 ->
+            if (soundpool != null && soundmap != null && soundmap!!.get(resourceId) != null) {
+                soundpool!!.play(soundmap!!.get(resourceId)!!, 1f, 1f, 0, 0, 1f)//播放指定的音频
+            }
+        })
     }
 }
