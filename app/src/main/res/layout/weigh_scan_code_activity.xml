@@ -85,11 +85,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_100dp"
                     android:layout_marginTop="@dimen/dimen_15dp"
-                    android:background="@drawable/selected_enabled_color"
-                    android:enabled="@{vm.isEnabled()}"
+                    android:background="@mipmap/bg_red"
                     android:gravity="center"
                     android:onClick="@{(v)->presenter.onClick(v)}"
-                    android:text="确认"
+                    android:text="@{vm.orderType}"
                     android:textColor="@color/selected_ffffff_333333"
                     android:textSize="@dimen/sp_23" />
 
