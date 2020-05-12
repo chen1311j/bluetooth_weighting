@@ -20,6 +20,8 @@ abstract class BaseViewAdapter<T>(context: Context, private val list: Observable
 
     var itemPresenter: ItemClickPresenter<T>? = null
 
+    var itemChildPresenter : ItemChildClickPresenter<T>? = null
+
     var itemDecorator: ItemDecorator? = null
 
     var itemAnimator: ItemAnimator? = ScaleInItemAnimator(interpolator = DecelerateInterpolator())
@@ -32,6 +34,7 @@ abstract class BaseViewAdapter<T>(context: Context, private val list: Observable
         val item = list[position]
         holder.binding.setVariable(BR.item, item)
         holder.binding.setVariable(BR.presenter, itemPresenter)
+        holder.binding.setVariable(BR.childpresenter, itemChildPresenter)
         holder.binding.executePendingBindings()
         itemDecorator?.decorator(holder, position, getItemViewType(position))
 

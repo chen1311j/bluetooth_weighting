@@ -13,6 +13,10 @@ interface  ItemClickPresenter<in Any> {
     fun onItemClick(v: View?=null, item:Any)
 }
 
+interface ItemChildClickPresenter<in Any>{
+    fun onChildItemClick(v: View, item : Any)
+}
+
 interface ItemDecorator{
     fun decorator(holder: BindingViewHolder<ViewDataBinding>?, position: Int, viewType: Int)
 }
