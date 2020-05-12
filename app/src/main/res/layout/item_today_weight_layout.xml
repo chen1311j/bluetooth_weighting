@@ -2,6 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="childpresenter"
+            type="com.xing.library.helper.adapter.recyclerview.ItemChildClickPresenter" />
     <variable
         name="item"
         type="com.xing.bluetoothweighapp.view.viewmodel.ItemTodayWeightViewModel" />
@@ -32,5 +35,14 @@
             android:gravity="center"
             android:text="@{item.name}"
             android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_weight_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_delete"
+            android:padding="15dp"
+            android:layout_gravity="center_vertical"
+            android:onClick="@{(v) -> childpresenter.onChildItemClick()}"/>
     </LinearLayout>
 </layout>
