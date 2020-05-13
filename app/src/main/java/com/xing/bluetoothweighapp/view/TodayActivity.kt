@@ -1,6 +1,7 @@
 package com.xing.bluetoothweighapp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.xing.bluetoothweighapp.R
 import com.xing.bluetoothweighapp.databinding.ActivityTodayBinding
@@ -16,10 +17,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TodayActivity : BaseActivity<ActivityTodayBinding>(),
     ItemChildClickPresenter<ItemTodayWeightViewModel> {
-    override fun onChildItemClick(v: View, item: ItemTodayWeightViewModel) {
+    override fun onChildItemClick(v: View?, item: ItemTodayWeightViewModel) {
         when(v?.id){
             R.id.iv_weight_delete ->{
-
+                Log.i("tag", "删除数据")
             }
         }
     }

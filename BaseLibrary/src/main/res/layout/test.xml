@@ -9,6 +9,10 @@
         <variable
             name="presenter"
             type="com.xing.library.helper.adapter.recyclerview.ItemClickPresenter" />
+
+        <variable
+            name="childpresenter"
+            type="com.xing.library.helper.adapter.recyclerview.ItemChildClickPresenter" />
     </data>
 
     <LinearLayout

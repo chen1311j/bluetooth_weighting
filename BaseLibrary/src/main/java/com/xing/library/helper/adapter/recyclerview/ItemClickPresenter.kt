@@ -14,7 +14,7 @@ interface  ItemClickPresenter<in Any> {
 }
 
 interface ItemChildClickPresenter<in Any>{
-    fun onChildItemClick(v: View, item : Any)
+    fun onChildItemClick(v: View?=null, item : Any)
 }
 
 interface ItemDecorator{
