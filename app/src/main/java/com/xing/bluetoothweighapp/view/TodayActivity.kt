@@ -20,7 +20,8 @@ class TodayActivity : BaseActivity<ActivityTodayBinding>(),
     override fun onChildItemClick(v: View?, item: ItemTodayWeightViewModel) {
         when(v?.id){
             R.id.iv_weight_delete ->{
-                Log.i("tag", "删除数据")
+                mViewModel.deleteTodayItem(item)
+                adapter.notifyDataSetChanged()
             }
         }
     }

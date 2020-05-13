@@ -5,6 +5,7 @@ import com.xing.library.viewmodel.BaseViewModel
 
 class ItemTodayWeightViewModel( bean: WeightOrderBean) :BaseViewModel() {
 
+    val   id = bean.id
     val   orderCode  =bean.orderId
     val   weight  =bean.weigth
     val   name  =bean.customer

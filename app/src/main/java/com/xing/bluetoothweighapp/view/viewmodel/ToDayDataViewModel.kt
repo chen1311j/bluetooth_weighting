@@ -25,4 +25,8 @@ class ToDayDataViewModel(val dao: WeightBeanManager) : BaseViewModel() {
         isEmpty.set(it.isNullOrEmpty())
     }
 
+    fun deleteTodayItem(item: ItemTodayWeightViewModel){
+        dao.deleteByKey(item.id)
+    }
+
 }
