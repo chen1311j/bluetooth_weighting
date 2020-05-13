@@ -21,6 +21,7 @@ class TodayActivity : BaseActivity<ActivityTodayBinding>(),
         when(v?.id){
             R.id.iv_weight_delete ->{
                 mViewModel.deleteTodayItem(item)
+                mViewModel.todayDataList.remove(item)
                 adapter.notifyDataSetChanged()
             }
         }
