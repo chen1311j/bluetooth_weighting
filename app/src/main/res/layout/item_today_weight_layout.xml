@@ -43,6 +43,6 @@
             android:src="@mipmap/icon_delete"
             android:padding="15dp"
             android:layout_gravity="center_vertical"
-            android:onClick="@{(v) -> childpresenter.onChildItemClick()}"/>
+            android:onClick="@{(v)->childpresenter.onChildItemClick(v,item)}"/>
     </LinearLayout>
 </layout>
