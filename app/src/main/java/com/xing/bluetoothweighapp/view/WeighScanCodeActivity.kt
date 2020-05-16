@@ -40,6 +40,7 @@ import androidx.core.content.FileProvider
 import com.xing.bluetoothweighapp.DialogHintView
 import com.xing.bluetoothweighapp.R
 import com.xing.library.net.NetUtils
+import kotlinx.android.synthetic.main.toolbar_layout.*
 import kotlinx.android.synthetic.main.weigh_scan_code_activity.*
 import java.io.File
 import java.io.FileOutputStream
@@ -155,6 +156,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
             mViewModel.customerName.set(customerName)
             mViewModel.orderType.set(if(isDiBang) "此单地磅单" else "此单外围单")
 //            mViewModel.bgColor.set(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
+            tv_title.setText(customerName)
             tv_confirm.setBackgroundResource(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
         }
         blueToothController?.registerBlueToothReceiver(this, receiver)
