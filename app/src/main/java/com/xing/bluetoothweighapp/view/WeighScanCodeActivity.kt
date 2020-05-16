@@ -126,6 +126,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
             }
         }
         getCount()
+        refreshLatestView()
         mViewModel.checkData().bindLifeCycle(this).subscribe()
         mViewModel.checkSave().bindLifeCycle(this).subscribe {
             if (it == WeighScanCodeViewModel.SAVE_SUCCESS) {
@@ -133,6 +134,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                 playSound(R.raw.success)
                 toast("保存成功")
                 getCount()
+                refreshLatestView()
             } else if (it == WeighScanCodeViewModel.SAVE_FAILURE) {
                 playSound(R.raw.failed)
                 if (isResetScanning == true) {
@@ -173,6 +175,11 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
         }, {
 
         })
+    }
+
+    private fun refreshLatestView(){
+        val latest  = mViewModel.getlatestOrder()
+        mViewModel.latestOrderBean.set(latest)
     }
 
     /**

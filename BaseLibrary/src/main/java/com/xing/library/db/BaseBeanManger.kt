@@ -69,6 +69,10 @@ abstract class BaseBeanManger<T, K> constructor(private var mDao: AbstractDao<T,
         return mDao.load(key)
     }
 
+    fun queryList():List<T>{
+        return mDao.loadAll()
+    }
+
     fun queryAll(): Single<List<T>> {
         return Single.create { emitter ->
             emitter.onSuccess(mDao.loadAll())

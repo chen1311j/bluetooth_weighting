@@ -37,6 +37,7 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager,val 
     val bgColor = ObservableField<Int>()
     val isSaveSuccess = ObservableField<Int>()
     val scanCount = ObservableField<Int>(0)
+    val latestOrderBean = ObservableField<WeightOrderBean>()
     var isResetScanning = false
 
     companion object {
@@ -47,6 +48,10 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager,val 
     }
 
     fun getCount() = dao.query("WHERE ${WeightOrderBeanDao.Properties.Status.columnName}=?", WeightBeanManager.NONE.toString())
+
+    fun getlatestOrder() : WeightOrderBean{
+        return dao.queryList().last()
+    }
 
     fun checkData(): Flowable<Boolean> = Flowable.combineLatest(orderCode.toFlowable(), weight.toFlowable(), customerName.toFlowable(),
         Function3<String, String, String, Boolean> { t1, t2, t3 ->
