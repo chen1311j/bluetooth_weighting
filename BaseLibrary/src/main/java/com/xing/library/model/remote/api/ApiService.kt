@@ -8,7 +8,7 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("/company/index1")
+    @GET("/company/index")
     fun getCustomerList(): Single<BaseResponse<List<CustomerBean>>>
 
 
