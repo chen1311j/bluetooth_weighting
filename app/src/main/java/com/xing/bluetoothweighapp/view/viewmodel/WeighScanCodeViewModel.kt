@@ -49,8 +49,12 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager,val 
 
     fun getCount() = dao.query("WHERE ${WeightOrderBeanDao.Properties.Status.columnName}=?", WeightBeanManager.NONE.toString())
 
-    fun getlatestOrder() : WeightOrderBean{
-        return dao.queryList().last()
+    fun getlatestOrder() : WeightOrderBean?{
+        val queryResult = dao.queryList()
+        if(queryResult != null && queryResult.isNotEmpty()){
+            return queryResult.last()
+        }
+        return null
     }
 
     fun checkData(): Flowable<Boolean> = Flowable.combineLatest(orderCode.toFlowable(), weight.toFlowable(), customerName.toFlowable(),
