@@ -160,7 +160,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
             mViewModel.customerName.set(customerName)
             mViewModel.orderType.set(if(isDiBang) "此单地磅单" else "此单外围单")
 //            mViewModel.bgColor.set(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
-            tv_title.setText(customerName)
+            mTvTitle?.setText(customerName)
             tv_confirm.setBackgroundResource(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
             tv_today_list.paint.flags = Paint.UNDERLINE_TEXT_FLAG
         }
