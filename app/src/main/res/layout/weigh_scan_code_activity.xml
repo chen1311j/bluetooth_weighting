@@ -105,6 +105,18 @@
                         android:layout_toRightOf="@id/tv_pre_waybill_tag"
                         android:layout_marginLeft="20dp"/>
 
+                    <ImageView
+                        android:id="@+id/iv_latest_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_delete"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:onClick="@{(v)->presenter.onClick(v)}"/>
+
 
                 </RelativeLayout>
 

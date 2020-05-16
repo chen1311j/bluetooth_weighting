@@ -139,6 +139,10 @@ class WeighScanCodeViewModel constructor(private val dao: WeightBeanManager,val 
 
     fun  previousOrder(company:String)=rope.setPreviousOrder(company).async()
 
+    fun deleteOrderItem(item : WeightOrderBean){
+        dao.delete(item)
+    }
+
    /* private fun resetData() {
         isSaveSuccess.set(RESET)
         //orderCode.set("")

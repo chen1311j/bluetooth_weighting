@@ -259,6 +259,16 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                     })
                 }
             }
+            R.id.iv_latest_delete->{
+                val latestItem = mViewModel.getlatestOrder()
+                if(latestItem == null){
+                    toast("没有可以删除的数据")
+                    return
+                }
+                mViewModel.deleteOrderItem(latestItem)
+                getCount()
+                refreshLatestView()
+            }
         }
     }
 
