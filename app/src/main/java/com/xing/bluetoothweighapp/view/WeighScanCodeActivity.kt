@@ -42,14 +42,8 @@ import com.xing.bluetoothweighapp.DialogHintView
 import com.xing.bluetoothweighapp.R
 import com.xing.library.helper.extens.navigateToActivity
 import com.xing.library.net.NetUtils
-import kotlinx.android.synthetic.main.toolbar_layout.*
 import kotlinx.android.synthetic.main.weigh_scan_code_activity.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.lang.NumberFormatException
-import java.lang.Process
-import java.util.*
 
 
 /**
