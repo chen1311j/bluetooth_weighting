@@ -27,6 +27,7 @@ import com.xing.library.view.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.R.attr.name
 import android.content.pm.PackageManager
+import android.graphics.Paint
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.*
@@ -39,6 +40,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.xing.bluetoothweighapp.DialogHintView
 import com.xing.bluetoothweighapp.R
+import com.xing.library.helper.extens.navigateToActivity
 import com.xing.library.net.NetUtils
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import kotlinx.android.synthetic.main.weigh_scan_code_activity.*
@@ -160,6 +162,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
 //            mViewModel.bgColor.set(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
             tv_title.setText(customerName)
             tv_confirm.setBackgroundResource(if(isDiBang) R.mipmap.bg_yello else R.mipmap.bg_red)
+            tv_today_list.paint.flags = Paint.UNDERLINE_TEXT_FLAG
         }
         blueToothController?.registerBlueToothReceiver(this, receiver)
         pairConnect()
@@ -268,6 +271,9 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                 mViewModel.deleteOrderItem(latestItem)
                 getCount()
                 refreshLatestView()
+            }
+            R.id.tv_today_list ->{
+                navigateToActivity(TodayActivity::class.java)
             }
         }
     }

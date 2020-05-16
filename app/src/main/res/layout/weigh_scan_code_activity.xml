@@ -185,9 +185,22 @@
                     android:onClick="@{(v)->presenter.onClick(v)}"
                     android:text="上一单是外围"
                     android:background="@mipmap/bg_red"
-                    android:layout_marginBottom="@dimen/dimen_50dp"
+                    android:layout_marginBottom="@dimen/dimen_30dp"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_23" />
+
+                <TextView
+                    android:id="@+id/tv_today_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_18"
+                    android:text="今日数据"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"
+                    android:padding="15dp"
+                    android:textStyle="bold"
+                    android:onClick="@{(v)->presenter.onClick(v)}"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
