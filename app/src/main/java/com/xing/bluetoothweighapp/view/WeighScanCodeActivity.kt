@@ -43,6 +43,7 @@ import com.xing.bluetoothweighapp.R
 import com.xing.library.helper.extens.navigateToActivity
 import com.xing.library.net.NetUtils
 import kotlinx.android.synthetic.main.weigh_scan_code_activity.*
+import java.io.Serializable
 import java.lang.NumberFormatException
 
 
@@ -63,6 +64,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
     private var gunManager: GunManager? = null
     private var speechText: String? = null
     private var isDiBang = true//默认是黄色的【此单地磅件】，点了以后变为【此单外围件】
+    private val REUQEST_CODE_TODAY_LIST = 0x006;
 
 
     private val mViewModel by viewModel<WeighScanCodeViewModel>()
@@ -267,7 +269,7 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
                 refreshLatestView()
             }
             R.id.tv_today_list ->{
-                navigateToActivity(TodayActivity::class.java)
+                navigateToActivity(TodayActivity::class.java, REUQEST_CODE_TODAY_LIST, REUQEST_CODE_TODAY_LIST)
             }
         }
     }
@@ -318,6 +320,14 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
             if (speak == -1) {
                 toast("语音功能，需要重启应用重新进入")
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REUQEST_CODE_TODAY_LIST){
+            getCount()
+            refreshLatestView()
         }
     }
 }

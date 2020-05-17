@@ -1,5 +1,6 @@
 package com.xing.bluetoothweighapp.view
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +9,7 @@ import com.xing.bluetoothweighapp.databinding.ActivityTodayBinding
 import com.xing.bluetoothweighapp.view.viewmodel.ItemCustomerViewModel
 import com.xing.bluetoothweighapp.view.viewmodel.ItemTodayWeightViewModel
 import com.xing.bluetoothweighapp.view.viewmodel.ToDayDataViewModel
+import com.xing.library.helper.Constants
 import com.xing.library.helper.adapter.recyclerview.ItemChildClickPresenter
 import com.xing.library.helper.adapter.recyclerview.SingleTypeAdapter
 import com.xing.library.helper.extens.bindLifeCycle
@@ -48,6 +50,13 @@ class TodayActivity : BaseActivity<ActivityTodayBinding>(),
         }, {
 
         })
+    }
+
+    override fun finish() {
+        if(intent.hasExtra(Constants.KEY_SERIALIZABLE)){
+            setResult(Activity.RESULT_OK)
+        }
+        super.finish()
     }
 
 }
