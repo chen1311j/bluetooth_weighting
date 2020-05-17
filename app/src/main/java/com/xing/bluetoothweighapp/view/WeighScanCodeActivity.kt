@@ -297,7 +297,8 @@ class WeighScanCodeActivity : BaseActivity<WeighScanCodeActivityBinding>() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun submit(text: String) { // validate
         if (TextUtils.isEmpty(text)) {
-            Toast.makeText(this, "请您输入要朗读的文字", Toast.LENGTH_SHORT).show()
+            mViewModel.weight.set("0.0")
+            Toast.makeText(this, "重量无效，不记录当前数据", Toast.LENGTH_SHORT).show()
             return
         }
         if (TextUtils.equals(speechText, text)) {
